@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="learning.com.mybatis.mapper.RoleMapper">
+    <resultMap id="roleMapper" type="role">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_name" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex"  typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="tel" property="tel" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="note" property="note" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <insert id="insertRole">
+        insert into role(id,user_name,password,sex,mobile,tel,email,note) values(#{id},#{username},#{password},#{sex},#{mobile},#{tel},#{email},#{note});
+    </insert>
+
+    <select id="selectByName" parameterType="string" resultType="role">
+        select * from role where user_name = #{userName,jdbcType=VARCHAR};
+    </select>
+
+    <select id="selectRoles" resultType="role">
+        select user_name,mobile from role
+        <where>
+            <if test="role_name != null">
+                role_name like concat('%',#{name},'%')
+            </if>
+            <if test="mobile != null">
+                mobile like concat('%','#{mobile}','%')
+            </if>
+        </where>
+    </select>
+    <update id="updateById" parameterType="role">
+        update role set tel = #{tel} where id = #{id};
+    </update>
+
+    <delete id="deleteByName" parameterType="string">
+        delete from role where user_name = #{name};
+    </delete>
+</mapper>

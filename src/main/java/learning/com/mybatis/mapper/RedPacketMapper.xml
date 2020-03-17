@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="learning.com.mybatis.mapper.RedPacketMapper">
+    <select id="getRedPacket" parameterType="long" resultType="learning.com.pojo.RedPacket">
+        select id , user_id as userid, amount, send_date as sendDate , total, unit_amount as unitAmount , stock , version , note from T_RED_PACKET where id = #{id};
+    </select>
+
+    <update id="decreaseRedPacket">
+        update T_RED_PACKET set stock = stock -1 where id = #{id};
+    </update>
+
+    <update id="decreaseRedPacketForVersion">
+        update T_RED_PACKET set stock = stock - 1,version = version + 1
+        where id = #{id} and version = #{version};
+    </update>
+</mapper>
